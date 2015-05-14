@@ -22,10 +22,7 @@ Time:           Years (y), months (mth), days (d), hours (hr),
                 minutes (min), seconds (sec)
 """
 
-from bs4 import BeautifulSoup
-from urllib.request import urlopen
-import lxml
-
+# Calls the correct conversion method based on the number the user chooses
 def chooseType():
 
     print("Choose the type of measurement you would like to use.")
@@ -54,6 +51,13 @@ def chooseType():
         chooseType()
 
 
+# A general converter. Prints out the available units, then takes input to figure out what to convert to and from.
+# For this to work, the the ratios of each element of unitArray to the first element of unitArray must be in the
+# same position in conversionArray as the unit who the ratio pertains to is in unitArray.
+# Example:
+#   unitArray = ["meters", "kilometers", "centimeters"]
+#   conversionArray = [1, 1000, .01]
+# So, centimeters * conversionrate[2] = centimetersInMeters.
 def converter(unitString, unitArray, conversionArray):
 
     print("You can convert between any of the following units:")
@@ -63,7 +67,9 @@ def converter(unitString, unitArray, conversionArray):
     end = input("Enter the abbreviation of the units you'd like to convert to: ")
 
     if start.upper() in unitArray and end.upper() in unitArray:
+        # Converts to a standard unit, always the first one in unitArray
         endNum = startNum * conversionArray[unitArray.index(start.upper())]
+        # Converts from the standard unit to the final unit
         endNum *= (1 / conversionArray[unitArray.index(end.upper())])
         print("{0} {1} in {2} is {3}.".format(startNum, start, end, endNum))
 
@@ -71,7 +77,8 @@ def converter(unitString, unitArray, conversionArray):
         print("One or both of your units were not valid.")
 
 
-
+# Converts temperatures. Hardcoded because the converter method doesn't work with temperatures
+# since they're not a fixed ratio.
 def tempConverter():
 
     tempString = "Fahrenheit (F), Celsius (C), Kelvin (K)"
@@ -141,6 +148,3 @@ def timeConverter():
     volArray = ["HRS", "YRS", "MTHS", "D", "MINS", "SECS"]
     volConversionArray = [1, 8766, 730, 24, .0167, .000278]
     converter(volString, volArray, volConversionArray)
-
-
-chooseType()
