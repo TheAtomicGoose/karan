@@ -11,8 +11,11 @@ def luhn(num):
     numCopy = num
 
     everyOther = False
+
+    # Goes over num backwards
     for x in range(len(str(num)), 0, -1):
 
+        # Multiply every other digit in num by 2
         if everyOther:
             numStr = str((numCopy % 10) * 2) + numStr
         else:
@@ -25,6 +28,7 @@ def luhn(num):
 
     digitSum = 0
 
+    # Add all the digits of modified num
     while modNum > 0:
         digitSum += modNum % 10
         modNum //= 10
